@@ -2,108 +2,136 @@
 <html>
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Time Calculator</title>
   <style>
+    /* Overall body styles for a centered and mobile-friendly experience */
     body {
+      margin: 0;
+      padding: 0;
+      background: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
       font-family: Arial, sans-serif;
-      margin: 20px;
+    }
+    /* Container to center content and provide padding */
+    .container {
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
     }
     label {
       display: block;
-      margin-top: 15px;
+      margin-top: 20px;
       font-weight: bold;
+      font-size: 1.2rem;
     }
     select {
-      margin-top: 5px;
-      padding: 5px;
-      font-size: 1rem;
+      margin-top: 10px;
+      padding: 10px;
+      font-size: 1.1rem;
+      width: 100%;
+      border: 1px solid #ccc;
+      border-radius: 5px;
     }
     button {
-      margin-top: 20px;
-      padding: 10px 20px;
-      font-size: 1rem;
+      margin-top: 30px;
+      padding: 15px 25px;
+      font-size: 1.2rem;
+      background: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0056b3;
     }
     #result {
-      margin-top: 20px;
-      font-size: 1.2rem;
+      margin-top: 30px;
+      font-size: 1.4rem;
       color: #333;
     }
   </style>
 </head>
 <body>
-  <label for="checkoutSelect">Checkouts</label>
-  <select id="checkoutSelect">
-    <!-- Options from 1 to 20 -->
-    <option value="0">0</option>
-    <option value="1">1</option>
-    <option value="2">2</option>
-    <option value="3">3</option>
-    <option value="4">4</option>
-    <option value="5">5</option>
-    <option value="6">6</option>
-    <option value="7">7</option>
-    <option value="8">8</option>
-    <option value="9">9</option>
-    <option value="10">10</option>
-    <option value="11">11</option>
-    <option value="12">12</option>
-    <option value="13">13</option>
-    <option value="14">14</option>
-    <option value="15">15</option>
-    <option value="16">16</option>
-    <option value="17">17</option>
-    <option value="18">18</option>
-    <option value="19">19</option>
-    <option value="20">20</option>
-  </select>
+  <div class="container">
+    <label for="checkoutSelect">Checkouts</label>
+    <select id="checkoutSelect">
+      <option value="0">0</option>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+      <option value="6">6</option>
+      <option value="7">7</option>
+      <option value="8">8</option>
+      <option value="9">9</option>
+      <option value="10">10</option>
+      <option value="11">11</option>
+      <option value="12">12</option>
+      <option value="13">13</option>
+      <option value="14">14</option>
+      <option value="15">15</option>
+      <option value="16">16</option>
+      <option value="17">17</option>
+      <option value="18">18</option>
+      <option value="19">19</option>
+      <option value="20">20</option>
+    </select>
 
-  <label for="stayoverSelect">Stayovers</label>
-  <select id="stayoverSelect">
-    <!-- Options from 1 to 20 -->
-    <option value="0">0</option>
-    <option value="1">1</option>
-    <option value="2">2</option>
-    <option value="3">3</option>
-    <option value="4">4</option>
-    <option value="5">5</option>
-    <option value="6">6</option>
-    <option value="7">7</option>
-    <option value="8">8</option>
-    <option value="9">9</option>
-    <option value="10">10</option>
-    <option value="11">11</option>
-    <option value="12">12</option>
-    <option value="13">13</option>
-    <option value="14">14</option>
-    <option value="15">15</option>
-    <option value="16">16</option>
-    <option value="17">17</option>
-    <option value="18">18</option>
-    <option value="19">19</option>
-    <option value="20">20</option>
-  </select>
+    <label for="stayoverSelect">Stayovers</label>
+    <select id="stayoverSelect">
+      <option value="0">0</option>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+      <option value="6">6</option>
+      <option value="7">7</option>
+      <option value="8">8</option>
+      <option value="9">9</option>
+      <option value="10">10</option>
+      <option value="11">11</option>
+      <option value="12">12</option>
+      <option value="13">13</option>
+      <option value="14">14</option>
+      <option value="15">15</option>
+      <option value="16">16</option>
+      <option value="17">17</option>
+      <option value="18">18</option>
+      <option value="19">19</option>
+      <option value="20">20</option>
+    </select>
 
-  <br>
-  <button onclick="calculateTime()">Calculate Time</button>
-
-  <p id="result"></p>
+    <button onclick="calculateTime()">Calculate Time</button>
+    <p id="result"></p>
+  </div>
 
   <script>
     function calculateTime() {
-      // Retrieve selected counts for checkouts and stayovers
+      // Retrieve selected counts for checkouts and stayovers.
       var checkoutCount = parseInt(document.getElementById('checkoutSelect').value);
       var stayoverCount = parseInt(document.getElementById('stayoverSelect').value);
       
       // Calculate total additional minutes: 35 minutes per checkout and 18 minutes per stayover.
       var totalMinutes = (checkoutCount * 35) + (stayoverCount * 18);
       
-      // Get the current time from the user's device.
+      // Instead of using the current time, always start from 9:00 am.
       var now = new Date();
-      var currentMinutes = now.getHours() * 60 + now.getMinutes();
+      var startTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 9, 0, 0);
+      var currentMinutes = startTime.getHours() * 60 + startTime.getMinutes();
       
       // Calculate the ending time in total minutes.
       var endTotalMinutes = currentMinutes + totalMinutes;
-      // Wrap around if exceeding 24 hours.
       endTotalMinutes = endTotalMinutes % (24 * 60);
       
       var endHours = Math.floor(endTotalMinutes / 60);
