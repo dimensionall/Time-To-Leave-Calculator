@@ -40,6 +40,15 @@
       border: 1px solid #ccc;
       border-radius: 5px;
     }
+    input[type="checkbox"] {
+      margin-top: 20px;
+      transform: scale(1.5);
+      cursor: pointer;
+    }
+    .checkbox-label {
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
     button {
       margin-top: 30px;
       padding: 15px 25px;
@@ -112,6 +121,12 @@
       <option value="20">20</option>
     </select>
 
+    <!-- Checkbox for two people -->
+    <div>
+      <input type="checkbox" id="twoPeople">
+      <label for="twoPeople" class="checkbox-label">Two People</label>
+    </div>
+
     <button onclick="calculateTime()">Calculate Time</button>
     <p id="result"></p>
   </div>
@@ -122,33 +137,46 @@
       var checkoutCount = parseInt(document.getElementById('checkoutSelect').value);
       var stayoverCount = parseInt(document.getElementById('stayoverSelect').value);
       
-      // Calculate total additional minutes: 35 minutes per checkout and 18 minutes per stayover.
-      var totalMinutes = (checkoutCount * 35) + (stayoverCount * 18);
+      // Check if the "Two People" checkbox is checked.
+      var twoPeople = document.getElementById('twoPeople').checked;
       
-      // Instead of using the current time, always start from 9:00 am.
+      // Define time per event based on the number of people.
+      // With one person: 35 minutes per checkout and 18 per stayover.
+      // With two people: half the time (17.5 per checkout, 9 per stayover).
+      var checkoutTime = twoPeople ? 35 / 2 : 35;
+      var stayoverTime = twoPeople ? 18 / 2 : 18;
+      
+      // Calculate total additional minutes (this may be fractional).
+      var totalMinutes = (checkoutCount * checkoutTime) + (stayoverCount * stayoverTime);
+      
+      // Use a starting time of 9:00 am.
       var now = new Date();
       var startTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 9, 0, 0);
-      var currentMinutes = startTime.getHours() * 60 + startTime.getMinutes();
       
-      // Calculate the ending time in total minutes.
-      var endTotalMinutes = currentMinutes + totalMinutes;
-      endTotalMinutes = endTotalMinutes % (24 * 60);
+      // Create a new Date by adding totalMinutes (converted to milliseconds).
+      var endTime = new Date(startTime.getTime() + totalMinutes * 60000);
       
-      var endHours = Math.floor(endTotalMinutes / 60);
-      var endMinutes = endTotalMinutes % 60;
-      
-      // Convert to 12-hour format with AM/PM.
+      // Format the ending time to 12-hour format with AM/PM.
+      var endHours = endTime.getHours();
+      var endMinutes = endTime.getMinutes();
       var period = endHours >= 12 ? "pm" : "am";
       var displayHours = endHours % 12;
       if (displayHours === 0) {
         displayHours = 12;
       }
+      // Pad minutes with a leading zero if needed.
       var displayMinutes = endMinutes < 10 ? "0" + endMinutes : endMinutes;
       
-      var resultTime = displayHours + ":" + displayMinutes + " " + period;
+      var formattedEndTime = displayHours + ":" + displayMinutes + " " + period;
       
-      // Display the calculated leave time.
-      document.getElementById('result').innerText = "You need to leave at: " + resultTime;
+      // Calculate the total in-house time.
+      var totalHours = Math.floor(totalMinutes / 60);
+      var remainingMinutes = Math.round(totalMinutes % 60);
+      
+      // Display both the leave time and the total duration.
+      document.getElementById('result').innerHTML =
+        "You need to leave at: " + formattedEndTime + "<br>" +
+        "Total time in-house: " + totalHours + " hours " + remainingMinutes + " minutes";
     }
   </script>
 </body>
